@@ -19,6 +19,7 @@ import { Github, WhatsApp, LinkedIn } from "@/components/ui/icons";
 
 export function Contact() {
   const [formState, setFormState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,6 +30,7 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState("sending");
+    setErrorMessage("");
 
     try {
       const res = await fetch("/api/contact", {
@@ -39,7 +41,7 @@ export function Contact() {
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (res.ok && data.success) {
         setFormState("sent");
@@ -52,23 +54,13 @@ export function Contact() {
         return;
       }
 
-      // If SMTP is not yet configured on the server, dispatch directly via pre-filled email
-      const mailtoUrl = `mailto:${profile.email}?subject=${encodeURIComponent(
-        formData.subject || `Portfolio Contact from ${formData.name}`
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`;
-      window.location.href = mailtoUrl;
-      setFormState("sent");
+      setFormState("error");
+      setErrorMessage(
+        data?.error || "Unable to send message directly. Please contact via WhatsApp or email."
+      );
     } catch {
-      // Direct mailto fallback on any network error
-      const mailtoUrl = `mailto:${profile.email}?subject=${encodeURIComponent(
-        formData.subject || `Portfolio Contact from ${formData.name}`
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`;
-      window.location.href = mailtoUrl;
-      setFormState("sent");
+      setFormState("error");
+      setErrorMessage("Network error. Please reach out via WhatsApp or email directly.");
     }
   };
 
@@ -327,8 +319,11 @@ export function Contact() {
                 <div className="mb-5 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm flex items-start gap-3">
                   <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold">Message failed to send automatically</p>
+                    <p className="font-semibold">Message failed to send</p>
                     <p className="text-xs text-text-secondary mt-1">
+                      {errorMessage || "Unable to send message automatically at this time."}
+                    </p>
+                    <p className="text-xs text-text-secondary mt-1.5">
                       Please message me directly on{" "}
                       <a
                         href={profile.whatsapp}

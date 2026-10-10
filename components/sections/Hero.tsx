@@ -165,7 +165,7 @@ export function Hero() {
               <div className="relative p-1.5 rounded-3xl bg-gradient-to-b from-accent/50 via-border to-accent-cyan/30 shadow-2xl">
                 <div className="relative aspect-[3/4] w-full rounded-[22px] overflow-hidden bg-bg-card border border-border/80">
                   <Image
-                    src="/profile.jpg"
+                    src="/profile-1.png"
                     alt={profile.name}
                     fill
                     sizes="(max-width: 768px) 340px, 380px"
