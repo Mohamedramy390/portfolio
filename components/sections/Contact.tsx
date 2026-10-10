@@ -39,7 +39,9 @@ export function Contact() {
         body: JSON.stringify(formData),
       });
 
-      if (res.ok) {
+      const data = await res.json();
+
+      if (res.ok && data.success) {
         setFormState("sent");
         setFormData({
           name: "",
@@ -47,12 +49,39 @@ export function Contact() {
           subject: "",
           message: "",
         });
-      } else {
-        setFormState("error");
+        return;
       }
+
+      // If SMTP is not yet configured on the server, dispatch directly via pre-filled email
+      const mailtoUrl = `mailto:${profile.email}?subject=${encodeURIComponent(
+        formData.subject || `Portfolio Contact from ${formData.name}`
+      )}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`;
+      window.location.href = mailtoUrl;
+      setFormState("sent");
     } catch {
-      setFormState("error");
+      // Direct mailto fallback on any network error
+      const mailtoUrl = `mailto:${profile.email}?subject=${encodeURIComponent(
+        formData.subject || `Portfolio Contact from ${formData.name}`
+      )}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`;
+      window.location.href = mailtoUrl;
+      setFormState("sent");
     }
+  };
+
+  const handleWhatsAppSend = () => {
+    const text = `Hi Mohamed! My name is ${formData.name || "a visitor"}${
+      formData.email ? ` (${formData.email})` : ""
+    }.\n\nRegarding: ${formData.subject || "Collaboration"}\n\n${
+      formData.message || "I'd like to get in touch with you!"
+    }`;
+    window.open(
+      `https://wa.me/201021423745?text=${encodeURIComponent(text)}`,
+      "_blank"
+    );
   };
 
   return (
@@ -342,15 +371,14 @@ export function Contact() {
                   )}
                 </Button>
 
-                <a
-                  href={profile.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 hover:bg-emerald-500/20 hover:border-emerald-500/40 transition-all text-center"
+                <button
+                  type="button"
+                  onClick={handleWhatsAppSend}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 hover:bg-emerald-500/20 hover:border-emerald-500/40 transition-all text-center cursor-pointer"
                 >
                   <WhatsApp className="w-4 h-4" />
                   Message via WhatsApp
-                </a>
+                </button>
               </div>
             </form>
           </ScrollReveal>

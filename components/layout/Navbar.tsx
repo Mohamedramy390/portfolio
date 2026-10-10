@@ -88,7 +88,9 @@ export function Navbar() {
               </a>
               <a
                 href={profile.resumePath}
-                download
+                download="Mohamed_Ramy_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium text-accent border border-accent/30 rounded-lg hover:bg-accent/10 transition-all"
                 id="nav-resume"
               >
@@ -169,7 +171,9 @@ export function Navbar() {
                 </motion.a>
                 <motion.a
                   href={profile.resumePath}
-                  download
+                  download="Mohamed_Ramy_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 + navigation.length * 0.05 }}

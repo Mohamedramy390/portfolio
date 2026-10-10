@@ -134,7 +134,9 @@ export function Hero() {
               </a>
               <a
                 href={profile.resumePath}
-                download
+                download="Mohamed_Ramy_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-text-tertiary hover:text-text-primary transition-colors"
                 id="hero-resume"
               >
