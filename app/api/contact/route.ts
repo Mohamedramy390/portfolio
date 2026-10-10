@@ -40,7 +40,7 @@ export async function POST(request: Request) {
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #0a0a0f; color: #f0f0f5; padding: 24px; border-radius: 12px; border: 1px solid #1e1e2e;">
             <div style="border-bottom: 2px solid #6366f1; padding-bottom: 16px; margin-bottom: 20px;">
               <h2 style="margin: 0; color: #ffffff; font-size: 20px;">New Message from Portfolio Website</h2>
-              <p style="margin: 4px 0 0; color: #a0a0b5; font-size: 13px;">Received via mohamedramy.dev contact form</p>
+              <p style="margin: 4px 0 0; color: #a0a0b5; font-size: 13px;">Received via mohamedramy.com contact form</p>
             </div>
             
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">

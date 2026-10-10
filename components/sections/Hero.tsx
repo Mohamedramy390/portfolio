@@ -171,6 +171,7 @@ export function Hero() {
                     sizes="(max-width: 768px) 340px, 380px"
                     className="object-cover object-top hover:scale-105 transition-transform duration-700"
                     priority
+                    loading="eager"
                   />
                   {/* Bottom gradient vignette */}
                   <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/85 via-transparent to-transparent pointer-events-none" />
